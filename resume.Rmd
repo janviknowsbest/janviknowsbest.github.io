@@ -1,0 +1,29 @@
+---
+title: "Resume"
+---
+
+## Education
+
+**Columbia University, Mailman School of Public Health**, New York, NY  
+MS in Biostatistics, expected 2028
+
+**Baylor University**, Waco, TX  
+BS in Biology and Mathematics, 2026
+
+## Experience
+
+**Data Analyst**, Boldrini Lab, New York State Psychiatric Institute  
+Present
+
+**Founder and Director**, ATLAS Research Program  
+Present
+
+* Mentor pre-undergraduate researchers through literature screening, statistical analysis, and conference presentations
+* Guide projects in cancer diagnosis equity, cardiovascular disease prediction, NSCLC biomarkers, and Parkinson's disease progression
+
+**Emergency Medical Technician (EMT-B)**, Primary Care Transits, Farmers Branch, TX  
+Licensed 2024, Texas
+
+## Skills
+
+R (tidyverse, R Markdown, plotly), Python, Git and GitHub, reproducible research
