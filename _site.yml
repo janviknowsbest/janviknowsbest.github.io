@@ -5,11 +5,15 @@ navbar:
   left:
     - text: "Home"
       href: index.html
+    - text: "Resume"
+      href: resume.html
   right:
     - icon: fa-envelope fa-lg
       href: mailto:jg5188@cumc.columbia.edu
     - icon: fa-github fa-lg
       href: https://github.com/janviknowsbest
+    - icon: fa-linkedin fa-lg
+      href: https://www.linkedin.com/in/janvi-garg-3b1069219
 output:
   html_document:
     theme: flatly
