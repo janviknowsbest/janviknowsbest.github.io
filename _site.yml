@@ -1,0 +1,15 @@
+name: "janviknowsbest.github.io"
+output_dir: "docs"
+navbar:
+  title: "Janvi Garg"
+  left:
+    - text: "Home"
+      href: index.html
+  right:
+    - icon: fa-envelope fa-lg
+      href: mailto:jg5188@cumc.columbia.edu
+    - icon: fa-github fa-lg
+      href: https://github.com/janviknowsbest
+output:
+  html_document:
+    theme: flatly
