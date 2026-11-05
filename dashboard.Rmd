@@ -1,0 +1,100 @@
+---
+title: "NYC Restaurant Inspections"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include = FALSE}
+library(tidyverse)
+library(plotly)
+library(p8105.datasets)
+
+data("rest_inspec")
+
+inspections_df =
+  rest_inspec |>
+  filter(
+    grade %in% c("A", "B", "C"),
+    boro != "0",
+    !is.na(score)
+  ) |>
+  distinct(camis, inspection_date, .keep_all = TRUE) |>
+  select(camis, dba, boro, cuisine_description, inspection_date,
+         score, grade, latitude, longitude)
+```
+
+Column {data-width=600}
+-----------------------------------------------------------------------
+
+### Manhattan inspection scores by location (random sample of 3,000 inspections)
+
+```{r}
+set.seed(8105)
+
+inspections_df |>
+  filter(boro == "Manhattan", latitude > 40, longitude < -73) |>
+  sample_n(3000) |>
+  mutate(text_label = str_c(dba, "\nCuisine: ", cuisine_description,
+                            "\nScore: ", score, "\nGrade: ", grade)) |>
+  plot_ly(
+    x = ~longitude, y = ~latitude, color = ~score, text = ~text_label,
+    type = "scatter", mode = "markers", alpha = 0.6,
+    hoverinfo = "text"
+  ) |>
+  colorbar(title = "Score") |>
+  layout(
+    xaxis = list(title = "Longitude"),
+    yaxis = list(title = "Latitude"),
+    font = list(size = 13)
+  )
+```
+
+Column {data-width=400}
+-----------------------------------------------------------------------
+
+### Inspection score distribution by borough (higher score = more violations)
+
+```{r}
+inspections_df |>
+  mutate(boro = fct_infreq(boro)) |>
+  plot_ly(
+    x = ~boro, y = ~score, color = ~boro,
+    type = "box", colors = "viridis"
+  ) |>
+  layout(
+    xaxis = list(title = "Borough"),
+    yaxis = list(title = "Inspection score"),
+    showlegend = FALSE,
+    font = list(size = 13)
+  )
+```
+
+### Share of grade A inspections for the 10 most inspected cuisines
+
+```{r}
+inspections_df |>
+  mutate(cuisine_description = recode(
+    cuisine_description,
+    "Latin (Cuban, Dominican, Puerto Rican, South & Central American)" = "Latin"
+  )) |>
+  group_by(cuisine_description) |>
+  summarize(
+    n_inspections = n(),
+    pct_a = mean(grade == "A") * 100
+  ) |>
+  slice_max(n_inspections, n = 10) |>
+  mutate(cuisine_description = fct_reorder(cuisine_description, pct_a)) |>
+  plot_ly(
+    x = ~pct_a, y = ~cuisine_description, type = "bar",
+    orientation = "h", marker = list(color = "#2c7fb8"),
+    text = ~str_c(round(pct_a, 1), "% A of ", n_inspections, " inspections"),
+    hoverinfo = "text"
+  ) |>
+  layout(
+    xaxis = list(title = "Percent of inspections graded A"),
+    yaxis = list(title = ""),
+    font = list(size = 13)
+  )
+```
